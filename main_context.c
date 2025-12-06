@@ -1121,7 +1121,7 @@ static int contextMenuMainEnterCallback(int sel, void *context) {
         setLocalSendDialogStatus(LOCALSEND_DIALOG_OPENING);
         setDialogStep(DIALOG_STEP_LOCALSEND_RECEIVE_SELECT);
       } else {
-        messageDialog(MESSAGE_DIALOG_MODE_DEFAULT, "No LocalSend devices found");
+        initMessageDialog(SCE_MSG_DIALOG_BUTTON_TYPE_OK, "No LocalSend devices found");
       }
       break;
     }
@@ -1141,7 +1141,7 @@ static int contextMenuMainEnterCallback(int sel, void *context) {
         strcpy(message, "No LocalSend devices found");
       }
 
-      messageDialog(MESSAGE_DIALOG_MODE_DEFAULT, message);
+      initMessageDialog(SCE_MSG_DIALOG_BUTTON_TYPE_OK, message);
       break;
     }
 

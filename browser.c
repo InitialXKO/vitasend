@@ -718,7 +718,8 @@ int jump_to_directory_track_current_path(char *path) {
 
   if (symlink_path) {
     strncpy(symlink_path->last_path, file_list.path, MAX_PATH_LENGTH);
-    strncpy(symlink_path->last_hook, path, MAX_PATH_LENGTH);
+    strncpy(symlink_path->last_hook, path, MAX_PATH_LENGTH-1);
+    symlink_path->last_hook[MAX_PATH_LENGTH-1] = '\0';
     dirLevelUp();
     int _dir_level = dir_level; // we escape from hierarchical dir level structure
     if (change_to_directory(path) < 0) {

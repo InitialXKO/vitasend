@@ -13,6 +13,7 @@
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
+*/
 #include "network_download.h"
 #include "context_menu.h"
 #include "archive.h"
