@@ -14,6 +14,7 @@
 
   You should have received a copy of the GNU General Public License
 */
+#include "main.h"
 #include "network_download.h"
 #include "context_menu.h"
 #include "archive.h"
