@@ -26,6 +26,8 @@ typedef struct {
     int https_enabled;
 } LocalSendDevice;
 
+extern char device_token[64];
+
 // File transfer structure
 typedef struct {
     char filename[256];

@@ -76,7 +76,7 @@ static int http_post_request(const char* url, const char* json_data, char* respo
         goto ERROR_EXIT;
 
     // Set headers
-    sceHttpSetRequestHeader(reqId, "Content-Type", "application/json");
+    sceHttpAddRequestHeader(reqId, "Content-Type", "application/json", SCE_HTTP_HEADER_OVERWRITE);
 
     // Send request with body
     res = sceHttpSendRequest(reqId, (void*)json_data, content_length);

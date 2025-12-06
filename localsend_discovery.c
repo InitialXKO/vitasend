@@ -12,7 +12,7 @@
 
 // Helper function to send HTTP GET request and get response
 static int http_get_request(const char* url, char* response, int max_response_size) {
-    int res;
+    int res = -1;
     int statusCode;
     int tmplId = -1, connId = -1, reqId = -1;
 

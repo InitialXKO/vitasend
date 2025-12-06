@@ -17,7 +17,7 @@
 // Global variables
 static int http_initialized = 0;
 static int tmpl_id = -1;
-static char device_token[64] = {0};
+char device_token[64] = {0};
 
 // Helper function to generate a simple token
 static void generate_token(char* token, int size) {
@@ -72,28 +72,6 @@ int localsend_register_device(const char* alias, const char* device_model, int d
 
     // For PS Vita, we'll just store the info locally
     // The actual registration happens when other devices discover us
-    return 0;
-}
-
-// Send a file to target device
-int localsend_send_file(const char* target_ip, int target_port, const char* filepath) {
-    if (!http_initialized) {
-        return -1;
-    }
-
-    // Implementation would involve:
-    // 1. Prepare upload request
-    // 2. Get session ID
-    // 3. Upload file data
-    // This is a placeholder for now
-
-    return 0;
-}
-
-// Receive a file (this would be handled by incoming HTTP requests)
-int localsend_receive_file(const char* session_id, const char* filename, const char* save_path) {
-    // This function would be called when receiving files
-    // For now, it's a placeholder
     return 0;
 }
 
