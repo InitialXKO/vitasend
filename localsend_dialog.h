@@ -19,6 +19,8 @@ enum LocalSendDialogStatus {
     LOCALSEND_DIALOG_OPENING,
 };
 
+extern int localsend_dialog_sel;
+
 // Function prototypes
 int getLocalSendDialogStatus();
 void setLocalSendDialogStatus(int status);

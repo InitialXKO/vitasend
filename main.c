@@ -41,6 +41,11 @@
 #include "browser.h"
 #include "io_process.h"
 #include "localsend_dialog.h"
+#include "makezip.h"
+#include "refresh.h"
+#include "package_installer.h"
+#include "main_context.h"
+#include "network_update.h"
 
 int _newlib_heap_size_user = 128 * 1024 * 1024;
 
@@ -1242,19 +1247,6 @@ int dialogSteps() {
           LocalSendDevice devices[10];
           int device_count = localsend_discover_devices(devices, 10);
           if (device_count > 0 && localsend_dialog_sel < device_count) {
-            char files[10][256];
-            int file_count = localsend_get_available_files(devices[localsend_dialog_sel].ip, devices[localsend_dialog_sel].port, files, 10);
-
-            if (file_count > 0) {
-              // Receive the first available file
-              localsend_receive_file_from_device(devices[localsend_dialog_sel].ip, devices[localsend_dialog_sel].port, files[0], file_list.path);
-              messageDialog(MESSAGE_DIALOG_MODE_DEFAULT, language_container[RECEIVING]);
-            } else {
-              messageDialog(MESSAGE_DIALOG_MODE_DEFAULT, "No files available");
-            }
-          }
-        }
-        setDialogStep(DIALOG_STEP_NONE);
       }
 
       break;
