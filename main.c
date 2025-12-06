@@ -1247,6 +1247,19 @@ int dialogSteps() {
           LocalSendDevice devices[10];
           int device_count = localsend_discover_devices(devices, 10);
           if (device_count > 0 && localsend_dialog_sel < device_count) {
+            char files[10][256];
+            int file_count = localsend_get_available_files(devices[localsend_dialog_sel].ip, devices[localsend_dialog_sel].port, files, 10);
+
+            if (file_count > 0) {
+              // Receive the first available file
+              localsend_receive_file_from_device(devices[localsend_dialog_sel].ip, devices[localsend_dialog_sel].port, files[0], file_list.path);
+              initMessageDialog(SCE_MSG_DIALOG_BUTTON_TYPE_OK, language_container[RECEIVING]);
+            } else {
+              initMessageDialog(SCE_MSG_DIALOG_BUTTON_TYPE_OK, "No files available");
+            }
+          }
+        }
+        setDialogStep(DIALOG_STEP_NONE);
       }
 
       break;
