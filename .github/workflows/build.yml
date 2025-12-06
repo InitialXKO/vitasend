@@ -15,28 +15,40 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      VITASDK: /usr/local/vitasdk
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install VitaSDK
-        uses: vitasdk/lite-action@v1
-        with:
-          vdpm_packages: >
-            vita2dlib
-            ftpvita
-            libarchive
-            libjpeg-turbo
-            libpng
-            libvorbis
-            libogg
-            onigmo
-            quirc
-            zlib
-            libexpat
-            bzip2
-            xz
-            openssl
+      - name: Install System Dependencies
+        run: sudo apt-get update && sudo apt-get install -y cmake
 
+      - name: Install VitaSDK
+        run: |
+          echo "VITASDK=$VITASDK" >> $GITHUB_ENV
+          echo "$VITASDK/bin" >> $GITHUB_PATH
+          
+          git clone https://github.com/vitasdk/vdpm
+          cd vdpm
+          chmod +x bootstrap-vitasdk.sh install-all.sh vdpm
+          ./bootstrap-vitasdk.sh
+          ./install-all.sh
+          
+          # Install required packages
+          ./vdpm vita2dlib
+          ./vdpm ftpvita
+          ./vdpm libarchive
+          ./vdpm libjpeg-turbo
+          ./vdpm libpng
+          ./vdpm libvorbis
+          ./vdpm libogg
+          ./vdpm onigmo
+          ./vdpm quirc
+          ./vdpm zlib
+          ./vdpm libexpat
+          ./vdpm bzip2
+          ./vdpm xz
+          ./vdpm openssl
 
       - name: Build
         run: |
