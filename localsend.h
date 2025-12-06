@@ -37,6 +37,7 @@ typedef struct {
 } LocalSendFile;
 
 // Function prototypes
+int http_get_request(const char* url, char* response, int max_response_size);
 int localsend_init();
 int localsend_discover_devices(LocalSendDevice* devices, int max_devices);
 int localsend_discover_devices_efficient(LocalSendDevice* devices, int max_devices);

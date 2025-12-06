@@ -11,6 +11,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "network_download.h"
 
 // Helper function to download file from LocalSend device
 static int download_file_from_localsend(const char* target_ip, int target_port, const char* filename, const char* save_path) {

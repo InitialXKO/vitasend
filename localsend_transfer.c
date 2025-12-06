@@ -121,7 +121,7 @@ ERROR_EXIT:
 
 // Helper function to send HTTP PUT request for file upload
 static int http_put_file(const char* url, const char* filepath) {
-    int res;
+    int res = -1;
     int statusCode;
     int tmplId = -1, connId = -1, reqId = -1;
     SceUID fd = -1;

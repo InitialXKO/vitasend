@@ -7,6 +7,8 @@
 #include "localsend_dialog.h"
 #include "message_dialog.h"
 #include "language.h"
+#include "utils.h"
+#include "theme.h"
 
 #define DEVICE_LIST_MAX 10
 
@@ -14,7 +16,7 @@ static int localsend_dialog_status = LOCALSEND_DIALOG_CLOSED;
 static int localsend_dialog_result = LOCALSEND_DIALOG_RESULT_NONE;
 static LocalSendDevice localsend_devices[DEVICE_LIST_MAX];
 static int localsend_device_count = 0;
-static int localsend_dialog_sel = 0;
+int localsend_dialog_sel = 0;
 
 static float localsend_dialog_x = 0.0f;
 static float localsend_dialog_y = 0.0f;
