@@ -147,6 +147,11 @@ add_executable(VitaShell
   libmad/stream.c
   libmad/synth.c
   libmad/timer.c
+  localsend.c
+  localsend_discovery.c
+  localsend_transfer.c
+  localsend_receive.c
+  localsend_dialog.c
 )
 
 add_dependencies(VitaShell vitashell_user_stubs)

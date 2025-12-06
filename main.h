@@ -49,6 +49,7 @@
 #include "file.h"
 #include "vitashell_config.h"
 #include "vitashell_error.h"
+#include "localsend.h"
 
 #define INCLUDE_EXTERN_RESOURCE(name) extern unsigned char _binary_resources_##name##_start; extern unsigned char _binary_resources_##name##_size; \
 
@@ -248,6 +249,9 @@ enum DialogSteps {
   DIALOG_STEP_ADHOC_RECEIVE_QUESTION,
   DIALOG_STEP_ADHOC_RECEIVING,
   DIALOG_STEP_ADHOC_RECEIVED,
+
+  DIALOG_STEP_LOCALSEND_SHARE_SELECT,
+  DIALOG_STEP_LOCALSEND_RECEIVE_SELECT,
 };
 
 extern vita2d_pgf *font;

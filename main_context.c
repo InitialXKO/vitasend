@@ -30,6 +30,7 @@
 #include "utils.h"
 #include "usb.h"
 #include "pfs.h"
+#include "localsend_dialog.h"
 
 enum MenuHomeEntrys {
   MENU_HOME_ENTRY_REFRESH_LIVEAREA,
@@ -77,6 +78,9 @@ enum MenuMainEntrys {
   MENU_MAIN_ENTRY_MORE,
   MENU_MAIN_ENTRY_ADHOC,
   MENU_MAIN_ENTRY_BOOKMARKS,
+  MENU_MAIN_ENTRY_LOCALSEND_SHARE,
+  MENU_MAIN_ENTRY_LOCALSEND_RECEIVE,
+  MENU_MAIN_ENTRY_LOCALSEND_DISCOVER,
 };
 
 MenuEntry menu_main_entries[] = {
@@ -93,6 +97,9 @@ MenuEntry menu_main_entries[] = {
   { MORE,           14, CTX_FLAG_MORE, CTX_INVISIBLE },
   { ADHOC_TRANSFER, 16, CTX_FLAG_MORE, CTX_INVISIBLE },
   { BOOKMARKS,      17, CTX_FLAG_MORE, CTX_INVISIBLE },
+  { LOCALSEND_SHARE, 18, 0, CTX_INVISIBLE },
+  { LOCALSEND_RECEIVE, 19, 0, CTX_VISIBLE },
+  { LOCALSEND_DISCOVER, 20, 0, CTX_VISIBLE },
 };
 
 #define N_MENU_MAIN_ENTRIES (sizeof(menu_main_entries) / sizeof(MenuEntry))
@@ -1068,6 +1075,74 @@ static int contextMenuMainEnterCallback(int sel, void *context) {
       setContextMenu(&context_menu_bookmarks);
       setContextMenuBookmarksVisibilities();
       return CONTEXT_MENU_MORE_OPENING;
+    }
+
+    case MENU_MAIN_ENTRY_LOCALSEND_SHARE:
+    {
+      // Share selected file via LocalSend
+      FileListEntry *file_entry = fileListGetNthEntry(&file_list, base_pos + rel_pos);
+      if (file_entry) {
+        char path[MAX_PATH_LENGTH];
+        snprintf(path, MAX_PATH_LENGTH, "%s%s", file_list.path, file_entry->name);
+
+        // Initialize LocalSend if not already done
+        localsend_init();
+
+        // Discover devices first
+        LocalSendDevice devices[10];
+        int device_count = localsend_discover_devices(devices, 10);
+
+        if (device_count > 0) {
+          // Show device selection dialog
+          initLocalSendDialog(devices, device_count);
+          setLocalSendDialogStatus(LOCALSEND_DIALOG_OPENING);
+          // Store the file path for later use after device selection
+          strcpy(cur_file, path);
+          setDialogStep(DIALOG_STEP_LOCALSEND_SHARE_SELECT);
+        } else {
+          messageDialog(MESSAGE_DIALOG_MODE_DEFAULT, "No LocalSend devices found");
+        }
+      }
+      break;
+    }
+
+    case MENU_MAIN_ENTRY_LOCALSEND_RECEIVE:
+    {
+      // Receive files via LocalSend
+      localsend_init();
+
+      // Discover devices first
+      LocalSendDevice devices[10];
+      int device_count = localsend_discover_devices(devices, 10);
+
+      if (device_count > 0) {
+        // Show device selection dialog
+        initLocalSendDialog(devices, device_count);
+        setLocalSendDialogStatus(LOCALSEND_DIALOG_OPENING);
+        setDialogStep(DIALOG_STEP_LOCALSEND_RECEIVE_SELECT);
+      } else {
+        messageDialog(MESSAGE_DIALOG_MODE_DEFAULT, "No LocalSend devices found");
+      }
+      break;
+    }
+
+    case MENU_MAIN_ENTRY_LOCALSEND_DISCOVER:
+    {
+      // Discover LocalSend devices
+      localsend_init();
+
+      LocalSendDevice devices[10];
+      int device_count = localsend_discover_devices(devices, 10);
+
+      char message[256];
+      if (device_count > 0) {
+        snprintf(message, sizeof(message), "Found %d LocalSend device(s)", device_count);
+      } else {
+        strcpy(message, "No LocalSend devices found");
+      }
+
+      messageDialog(MESSAGE_DIALOG_MODE_DEFAULT, message);
+      break;
     }
 
     case MENU_MAIN_ENTRY_ADHOC:

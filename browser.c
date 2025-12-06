@@ -1026,6 +1026,7 @@ int browserMain() {
     drawContextMenu();
     drawAdhocDialog();
     drawPropertyDialog();
+    drawLocalSendDialog();
 
     // End drawing
     endDrawing();

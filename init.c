@@ -429,6 +429,9 @@ void initVitaShell() {
   }
   time_last_recent_files = 0;
   time_last_bookmarks = 0;
+
+  // Initialize LocalSend
+  localsend_init();
 }
 
 void finishVitaShell() {
@@ -439,7 +442,10 @@ void finishVitaShell() {
   finishVita2dLib();
   finishQR();
   vitaAudioShutdown();
-  
+
+  // Cleanup LocalSend
+  localsend_cleanup();
+
   // Unload modules
   sceSysmoduleUnloadModule(SCE_SYSMODULE_SQLITE);
   sceSysmoduleUnloadModule(SCE_SYSMODULE_PSPNET_ADHOC);

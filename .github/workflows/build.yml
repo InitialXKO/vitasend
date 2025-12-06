@@ -1,0 +1,64 @@
+name: Build VPK
+
+on:
+  push:
+    branches: [ "master", "main" ]
+  pull_request:
+    branches: [ "master", "main" ]
+  release:
+    types: [ published, created ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install VitaSDK
+        uses: vitasdk/lite-action@v1
+        with:
+          vdpm_packages: >
+            vita2dlib
+            ftpvita
+            libarchive
+            libjpeg-turbo
+            libpng
+            libvorbis
+            libogg
+            onigmo
+            quirc
+            zlib
+            libexpat
+            bzip2
+            xz
+            openssl
+
+
+      - name: Build
+        run: |
+          mkdir build
+          cd build
+          cmake -DCMAKE_BUILD_TYPE=Release ..
+          cd modules/kernel && make -j$(nproc)
+          cd ../patch && make -j$(nproc)
+          cd ../usbdevice && make -j$(nproc)
+          cd ../user && make -j$(nproc)
+          cd ../.. && make -j$(nproc)
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: VitaShell.vpk
+          path: build/VitaShell.vpk
+          if-no-files-found: error
+          
+      - name: Release
+        if: github.event_name == 'release'
+        uses: softprops/action-gh-release@v1
+        with:
+          files: build/VitaShell.vpk
+          fail_on_unmatched_files: true

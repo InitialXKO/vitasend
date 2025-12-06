@@ -1210,7 +1210,59 @@ int dialogSteps() {
         // Alert sockets
         adhocAlertSockets();
       }
-      
+
+      break;
+    }
+
+    case DIALOG_STEP_LOCALSEND_SHARE_SELECT:
+    {
+      // Handle LocalSend device selection for sharing
+      localSendDialogCtrl();
+
+      if (getLocalSendDialogStatus() == LOCALSEND_DIALOG_CLOSED) {
+        int result = getLocalSendDialogResult();
+        if (result == LOCALSEND_DIALOG_RESULT_SELECTED) {
+          // Get selected device and send file
+          LocalSendDevice devices[10];
+          int device_count = localsend_discover_devices(devices, 10);
+          if (device_count > 0 && localsend_dialog_sel < device_count) {
+            localsend_send_file(devices[localsend_dialog_sel].ip, devices[localsend_dialog_sel].port, cur_file);
+            messageDialog(MESSAGE_DIALOG_MODE_DEFAULT, language_container[SENDING]);
+          }
+        }
+        setDialogStep(DIALOG_STEP_NONE);
+      }
+
+      break;
+    }
+
+    case DIALOG_STEP_LOCALSEND_RECEIVE_SELECT:
+    {
+      // Handle LocalSend device selection for receiving
+      localSendDialogCtrl();
+
+      if (getLocalSendDialogStatus() == LOCALSEND_DIALOG_CLOSED) {
+        int result = getLocalSendDialogResult();
+        if (result == LOCALSEND_DIALOG_RESULT_SELECTED) {
+          // Get selected device and receive files
+          LocalSendDevice devices[10];
+          int device_count = localsend_discover_devices(devices, 10);
+          if (device_count > 0 && localsend_dialog_sel < device_count) {
+            char files[10][256];
+            int file_count = localsend_get_available_files(devices[localsend_dialog_sel].ip, devices[localsend_dialog_sel].port, files, 10);
+
+            if (file_count > 0) {
+              // Receive the first available file
+              localsend_receive_file_from_device(devices[localsend_dialog_sel].ip, devices[localsend_dialog_sel].port, files[0], file_list.path);
+              messageDialog(MESSAGE_DIALOG_MODE_DEFAULT, language_container[RECEIVING]);
+            } else {
+              messageDialog(MESSAGE_DIALOG_MODE_DEFAULT, "No files available");
+            }
+          }
+        }
+        setDialogStep(DIALOG_STEP_NONE);
+      }
+
       break;
     }
   }
