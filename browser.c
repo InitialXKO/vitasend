@@ -40,6 +40,7 @@
 #include "theme.h"
 #include "language.h"
 #include "utils.h"
+#include "localsend_dialog.h"
 #include "sfo.h"
 #include "coredump.h"
 #include "usb.h"

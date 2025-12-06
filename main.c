@@ -13,18 +13,6 @@
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
-#include "main.h"
-#include "main_context.h"
-#include "browser.h"
-#include "init.h"
-#include "io_process.h"
-#include "refresh.h"
-#include "makezip.h"
-#include "package_installer.h"
-#include "network_update.h"
 #include "network_download.h"
 #include "context_menu.h"
 #include "archive.h"
@@ -1227,7 +1215,7 @@ int dialogSteps() {
           int device_count = localsend_discover_devices(devices, 10);
           if (device_count > 0 && localsend_dialog_sel < device_count) {
             localsend_send_file(devices[localsend_dialog_sel].ip, devices[localsend_dialog_sel].port, cur_file);
-            messageDialog(MESSAGE_DIALOG_MODE_DEFAULT, language_container[SENDING]);
+            initMessageDialog(SCE_MSG_DIALOG_BUTTON_TYPE_OK, language_container[SENDING]);
           }
         }
         setDialogStep(DIALOG_STEP_NONE);

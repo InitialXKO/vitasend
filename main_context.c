@@ -1100,7 +1100,7 @@ static int contextMenuMainEnterCallback(int sel, void *context) {
           strcpy(cur_file, path);
           setDialogStep(DIALOG_STEP_LOCALSEND_SHARE_SELECT);
         } else {
-          messageDialog(MESSAGE_DIALOG_MODE_DEFAULT, "No LocalSend devices found");
+          initMessageDialog(SCE_MSG_DIALOG_BUTTON_TYPE_OK, "No LocalSend devices found");
         }
       }
       break;
