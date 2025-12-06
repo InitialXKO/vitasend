@@ -37,6 +37,10 @@
 #include "usb.h"
 #include "qr.h"
 #include "pfs.h"
+#include "init.h"
+#include "browser.h"
+#include "io_process.h"
+#include "localsend_dialog.h"
 
 int _newlib_heap_size_user = 128 * 1024 * 1024;
 
