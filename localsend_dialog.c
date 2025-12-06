@@ -124,7 +124,7 @@ void drawLocalSendDialog() {
     // Draw device list
     for (int i = 0; i < localsend_device_count; i++) {
         float device_y = y + 30.0f + i * FONT_Y_SPACE;
-        uint32_t color = (i == localsend_dialog_sel) ? SELECTED_COLOR : TEXT_COLOR;
+        uint32_t color = (i == localsend_dialog_sel) ? FOCUS_COLOR : TEXT_COLOR;
 
         char device_info[128];
         snprintf(device_info, sizeof(device_info), "%s (%s)",
